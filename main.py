@@ -1,16 +1,46 @@
-# This is a sample Python script.
+import random
+import curses
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+screenWindow = curses.initscr()
+
+curses.curs_set(0)
+
+Height, Width = screenWindow.getmaxyx()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+window = curses.newwin(Height, Width,0, 0)
+
+window.keypad(1)
+
+window.timeout(100)
+
+snake_X = Width // 4
+snake_Y = Height // 4
+
+snakeBody = [
+    [snake_Y, snake_X],
+    [snake_Y, snake_X - 1],
+    [snake_Y, snake_X - 2],
+]
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+food = [
+    Height // 2,
+    Width // 2
+]
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+window.addch(food[0], food[1], curses.ACS_PI)
+
+Key = curses.KEY_RIGHT
+
+while True:
+    next_Key = window.getch()
+    # Key = Key if next_Key == -1 else next_Key
+    if next_Key == -1:
+        Key = Key
+    else:
+        Key = next_Key
+    if snakeBody[0][0] in [0, Height] or snakeBody[0][1] in [0, Width] or snakeBody[0] in [1:]:
+        curses.endwin()
+        quit()
