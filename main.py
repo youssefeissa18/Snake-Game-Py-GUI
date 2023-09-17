@@ -1,3 +1,5 @@
+# to make the game Work Put the game in Replit This Web Site for work the Game
+
 import random
 import curses
 
